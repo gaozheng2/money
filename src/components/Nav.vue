@@ -18,6 +18,6 @@ export default {
 .nav {
   border: 1px solid red;
   display: flex;
-
+  justify-content: space-around;
 }
 </style>
