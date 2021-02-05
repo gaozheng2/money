@@ -5,14 +5,15 @@
 </template>
 
 <style lang="scss">
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+@import "~@/assets/css/ress.css";
+@import "~@/assets/css/common.scss";
 
 body {
+  font-family: $font-hei;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   line-height: 1.5;
+  color: #333;
 }
 
 a {

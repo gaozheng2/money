@@ -16,6 +16,8 @@
 </template>
 
 <style lang="scss" scoped>
+@import "~@/assets/css/common.scss";
+
 nav {
   display: flex;
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
@@ -38,7 +40,7 @@ nav {
   }
 
   > .item.selected { /* 被选中的路由样式 */
-    color: #e03e3e;
+    color: $color-highlight;
   }
 }
 </style>
