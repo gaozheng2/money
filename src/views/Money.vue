@@ -2,7 +2,7 @@
   <Layout class="layout" class-prefix="money">
     <Tags/>
     <Notes/>
-    <Types/>
+    <Types :prop-a="123"/>
     <NumberPad/>
   </Layout>
 </template>
