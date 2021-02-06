@@ -1,6 +1,6 @@
 <template>
-  <div class="layout-wrapper">
-    <div class="content">
+  <div class="wrapper" :class="classPrefix && `${classPrefix}-wrapper`">
+    <div class="content" :class="classPrefix && `${classPrefix}-content`">
       <slot/>
     </div>
     <Nav/>
@@ -9,12 +9,19 @@
 
 <script lang='ts'>
 export default {
-  name: 'Layout'
+  name: 'Layout',
+  props: ['classPrefix']
 };
 </script>
 
-<style lang='scss' scoped>
-.layout-wrapper {
+<style lang="scss">
+.money-content {
+  display: flex;
+  flex-direction: column;
+}
+</style>
+<style lang="scss" scoped>
+.wrapper {
   display: flex;
   flex-direction: column;
   height: 100vh; // 高度一个屏幕

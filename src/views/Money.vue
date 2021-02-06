@@ -1,6 +1,7 @@
 <template>
-  <Layout class="layout">
+  <Layout class="layout" class-prefix="money">
     <div class="tags">
+      <div class="space"></div>
       <ul class="current">
         <li>衣</li>
         <li>食</li>
@@ -55,23 +56,27 @@ export default {
 <style lang="scss" scoped>
 @import "~@/assets/css/common.scss";
 
-.layout {
-  font-size: 14px;
-  display: flex;
-  flex-direction: column;
-}
-
 .tags {
   padding: 16px;
   flex-grow: 1;
+  font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+
+  > .space {
+    flex-grow: 1;
+  }
 
   > .current {
     display: flex;
+    flex-wrap: wrap;
 
     > li {
       background: #d9d9d9;
       padding: 0 16px;
       margin-right: 12px;
+      margin-top: 4px;
       font-size: 14px;
       $h: 24px;
       height: $h;
@@ -113,6 +118,8 @@ export default {
 
 .types {
   background: #c4c4c4;
+  //background: #dfab01;
+  //background: #fbf3db;
   display: flex;
   text-align: center;
   font-size: 20px;
