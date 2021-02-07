@@ -1,7 +1,7 @@
 <template>
   <ul class="types">
     <li :class="type==='-' && 'selected'" @click="selectType('-')">支出</li>
-    <li :class="type==='+' && 'selected'" @click="selectType('+')">{{ propA }}收入</li>
+    <li :class="type==='+' && 'selected'" @click="selectType('+')">收入</li>
   </ul>
 </template>
 
