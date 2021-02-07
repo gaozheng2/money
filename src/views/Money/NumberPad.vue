@@ -33,7 +33,7 @@ export default class NumberPad extends Vue {
   clickNum(event: MouseEvent) {
     if (this.output.length === 16) return;
     const button = (event.target as HTMLButtonElement);
-    const num = button.textContent;
+    const num = button.textContent as string;
     if (this.output === '0') {
       this.output = num;
     } else {
