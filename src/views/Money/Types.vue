@@ -11,7 +11,7 @@ import {Component, Prop} from 'vue-property-decorator'; // Vue 的 Ts 支持库
 
 @Component // 装饰器，告诉 Ts 这是一个 Vue 组件
 export default class Types extends Vue { // Ts 必须使用 class 的形式声明 Vue 组件
-  @Prop(Number) propA: number | undefined; // 告诉 Ts 这不是 data，是 props
+  @Prop(Number) readonly propA: number | undefined; // 告诉 Ts 这不是 data，是 props
   type = '-'; // 任何赋值语句会变成实例的 data， - 表示支出，+ 表示收入
 
   selectType(type: string) { // methods 可以直接写在 class 中，Ts 中变量必须声明类型
@@ -21,28 +21,7 @@ export default class Types extends Vue { // Ts 必须使用 class 的形式声�
       this.type = type;
     }
   }
-
-  mounted() { // 生命周期函数可以直接写在 class 中
-    console.log(this.propA);
-  }
 }
-/*export default {
-  name: 'Types',
-  data() {
-    return {
-      type: '+' // - 表示支出，+ 表示收入
-    }
-  },
-  methods: {
-    selectType(type) {
-      if (type !== '-' && type !== '+') {
-        throw new Error('type is unknown')
-      } else {
-        this.type = type
-      }
-    }
-  }
-}*/
 </script>
 
 <style lang="scss" scoped>
