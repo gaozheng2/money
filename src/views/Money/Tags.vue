@@ -2,24 +2,48 @@
   <div class="tags">
     <div class="space"></div>
     <ul class="current">
-      <li>衣</li>
-      <li>食</li>
-      <li>住</li>
-      <li>行</li>
+      <li
+        v-for="item of tags"
+        :key="item"
+        :class="{ selected: selectedTags.indexOf(item) >= 0 }"
+        @click="toggle(item)"
+      >
+        {{ item }}
+      </li>
     </ul>
     <div class="new">
-      <button>新增标签</button>
+      <button @click="create">新增标签</button>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-export default {
-  name: 'Tags',
-  data() {
-    return {};
+import Vue from 'vue'
+import { Component, Prop } from 'vue-property-decorator'
+
+@Component
+export default class Tags extends Vue {
+  @Prop(Array) readonly tags: string[] | undefined
+  selectedTags: string[] = []
+
+  toggle(tag: string) {
+    const index: number = this.selectedTags.indexOf(tag)
+    if (index >= 0) {
+      this.selectedTags.splice(index, 1)
+    } else {
+      this.selectedTags.push(tag)
+    }
   }
-};
+
+  create() {
+    const name: string | null = window.prompt('请输入标签名')
+    if (name && this.tags && this.tags.indexOf(name) < 0) {
+      // 展开原数组，添加新项
+      // 必须使用 updata:tags 事件名，对应 .sync 修饰符
+      this.$emit('update:tags', [...this.tags, name])
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -49,6 +73,10 @@ export default {
       height: $h;
       line-height: $h; /* 只有一行文字时，可以使用 line-height = height 设置垂直居中 */
       border-radius: $h/2;
+
+      &.selected {
+        background: #fbf3db;
+      }
     }
   }
 

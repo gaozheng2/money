@@ -1,17 +1,17 @@
 <template>
   <Layout class="layout" class-prefix="money">
-    <Tags/>
-    <Notes/>
-    <Types :prop-a="123"/>
-    <NumberPad/>
+    <Tags :tags.sync="tags" />
+    <Notes />
+    <Types />
+    <NumberPad />
   </Layout>
 </template>
 
-<script lang='ts'>
-import Tags from '@/views/Money/Tags.vue';
-import Notes from '@/views/Money/Notes.vue';
-import Types from '@/views/Money/Types.vue';
-import NumberPad from '@/views/Money/NumberPad.vue';
+<script lang="ts">
+import Tags from '@/views/Money/Tags.vue'
+import Notes from '@/views/Money/Notes.vue'
+import Types from '@/views/Money/Types.vue'
+import NumberPad from '@/views/Money/NumberPad.vue'
 
 export default {
   name: 'money',
@@ -20,6 +20,11 @@ export default {
     Tags,
     Notes,
     Types,
-  }
-};
+  },
+  data() {
+    return {
+      tags: ['餐饮', '日常', '交通', '教育'],
+    }
+  },
+}
 </script>
