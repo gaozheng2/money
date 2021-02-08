@@ -24,7 +24,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { Component } from 'vue-property-decorator'
+import { Component, Prop, Watch } from 'vue-property-decorator'
 
 @Component
 export default class NumberPad extends Vue {
@@ -64,6 +64,7 @@ export default class NumberPad extends Vue {
   clickOk() {
     const num: number = parseFloat(this.output)
     if (num === 0) return
+    this.clickClear()
     this.$emit('update:value', num)
   }
 }
