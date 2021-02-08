@@ -13,14 +13,15 @@ import { Component, Prop } from 'vue-property-decorator' // Vue 的 Ts 支持库
 @Component // 装饰器，告诉 Ts 这是一个 Vue 组件
 export default class Types extends Vue {
   // Ts 必须使用 class 的形式声明 Vue 组件
-  type = '-' // 任何赋值语句会变成实例的 data， - 表示支出，+ 表示收入
+  @Prop(String) readonly type!: string
 
   selectType(type: string) {
     // methods 可以直接写在 class 中，Ts 中变量必须声明类型
+    if (this.type === type) return
     if (type !== '-' && type !== '+') {
       throw new Error('type is unknown')
     } else {
-      this.type = type
+      this.$emit('update:type', type)
     }
   }
 }
