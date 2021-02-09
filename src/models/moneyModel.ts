@@ -1,6 +1,6 @@
-const keyName = 'moneyDataList';
+const keyName = 'moneyData';
 
-const model = {
+const moneyModel = {
   fetch(): MoneyData[] {
     return JSON.parse(localStorage.getItem(keyName) || '[]');
   },
@@ -12,4 +12,4 @@ const model = {
   }
 };
 
-export default model;
+export default moneyModel;

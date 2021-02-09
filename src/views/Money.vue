@@ -1,6 +1,5 @@
 <template>
   <Layout class="layout" class-prefix="money">
-    {{ moneyDataList }}
     <Tags :tags.sync="tags" :selectedTags.sync="moneyData.tags"/>
     <Notes :notes.sync="moneyData.notes"/>
     <Types :type.sync="moneyData.type"/>
@@ -15,15 +14,16 @@ import Notes from '@/views/Money/Notes.vue';
 import Types from '@/views/Money/Types.vue';
 import NumberPad from '@/views/Money/NumberPad.vue';
 import {Component} from 'vue-property-decorator';
-import model from '@/model.ts';
+import moneyModel from '@/models/moneyModel';
+import tagsModel from '@/models/tagsModel';
 
 // 根据数据版本进行数据清洗
 const dataVersion = localStorage.getItem('dataVersion') || '0';
 if (dataVersion === '0.1.0') {
-  const oldDataList: moneyData[] = model.oldDataList.forEach((item) => {
+  const oldDataList: moneyData[] = moneyModel.oldDataList.forEach((item) => {
     item.date = new Date(2021, 0, 1);
   });
-  model.save(oldDataList);
+  moneyModel.save(oldDataList);
 }
 localStorage.setItem('dataVersion', '0.2.0');
 
@@ -31,8 +31,8 @@ localStorage.setItem('dataVersion', '0.2.0');
   components: {NumberPad, Tags, Notes, Types},
 })
 export default class Money extends Vue {
-  tags = ['餐饮', '日常', '交通', '教育'];
-  moneyDataList = model.fetch();
+  tags = tagsModel.fetch();
+  moneyDataList = moneyModel.fetch();
   defaultData: MoneyData = {
     tags: [],
     notes: '',
@@ -44,11 +44,11 @@ export default class Money extends Vue {
 
   onUpdateNum(num: number) {
     this.moneyData.num = num;
-    const newData = model.clone(this.moneyData);
+    const newData = moneyModel.clone(this.moneyData);
     newData.date = new Date();
     this.moneyDataList.push(newData);
-    this.moneyData = model.clone(this.defaultData); // 恢复默认值
-    model.save(this.moneyDataList);
+    this.moneyData = moneyModel.clone(this.defaultData); // 恢复默认值
+    moneyModel.save(this.moneyDataList);
   }
 }
 </script>
