@@ -12,7 +12,7 @@
       </router-link>
     </div>
     <div class="new">
-      <button @click="create">新建标签</button>
+      <Button @click.native="create">新建标签</Button>
     </div>
   </Layout>
 </template>
@@ -21,8 +21,11 @@
 import Vue from 'vue'
 import { Component } from 'vue-property-decorator'
 import tagsModel from '@/models/tagsModel'
+import Button from '@/components/Button.vue'
 
-@Component
+@Component({
+  components: { Button },
+})
 export default class Labels extends Vue {
   tags = tagsModel.fetch()
 
@@ -56,14 +59,5 @@ export default class Labels extends Vue {
 
 .new {
   text-align: center;
-  font-size: 14px;
-
-  > button {
-    background: #767676;
-    color: white;
-    border-radius: 4px;
-    padding: 4px 16px;
-    margin-top: 40px;
-  }
 }
 </style>

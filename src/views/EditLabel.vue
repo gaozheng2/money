@@ -4,7 +4,8 @@
       <Icon name="left" />
       <span>编辑标签</span>
     </div>
-    <Notes />
+    <Notes field-name="标签名" />
+    <Button @click.native="delTag">删除标签</Button>
   </layout>
 </template>
 
@@ -13,9 +14,10 @@ import Vue from 'vue'
 import { Component } from 'vue-property-decorator'
 import tagsModel from '@/models/tagsModel'
 import Notes from '@/views/Money/Notes.vue'
+import Button from '@/components/Button.vue'
 
 @Component({
-  components: { Notes },
+  components: { Notes, Button },
 })
 export default class EditLabel extends Vue {
   created() {
@@ -27,6 +29,9 @@ export default class EditLabel extends Vue {
     } else {
       this.$router.replace('/404')
     }
+  }
+  delTag() {
+    console.log('del')
   }
 }
 </script>

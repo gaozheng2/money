@@ -1,7 +1,7 @@
 <template>
   <Layout class="layout" class-prefix="money">
     <Tags :tags="tags" :selectedTags.sync="moneyData.tags" />
-    <Notes :notes.sync="moneyData.notes" />
+    <Notes fieldName="备注" :notes.sync="moneyData.notes" />
     <Types :type.sync="moneyData.type" />
     <NumberPad @update:value="onUpdateNum" />
   </Layout>
