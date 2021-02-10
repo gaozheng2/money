@@ -3,10 +3,10 @@
     <div class="space"></div>
     <ul class="current">
       <li
-          v-for="item of tags"
-          :key="item"
-          :class="{ selected: selectedTags.indexOf(item) >= 0 }"
-          @click="toggle(item)"
+        v-for="item of tags"
+        :key="item"
+        :class="{ selected: selectedTags.indexOf(item) >= 0 }"
+        @click="toggle(item)"
       >
         {{ item }}
       </li>
@@ -18,34 +18,29 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import {Component, Prop} from 'vue-property-decorator';
-import tagsModel from '@/models/tagsModel';
+import Vue from 'vue'
+import { Component, Prop } from 'vue-property-decorator'
+import tagsModel from '@/models/tagsModel'
 
 @Component
 export default class Tags extends Vue {
-  @Prop(Array) readonly tags: string[] | undefined;
-  @Prop(Array) readonly selectedTags!: string[];
-  tempTags = this.selectedTags;
+  @Prop(Array) readonly tags: string[] | undefined
+  @Prop(Array) readonly selectedTags!: string[]
+  tempTags = this.selectedTags
 
   toggle(tag: string) {
-    const index: number = this.selectedTags.indexOf(tag);
+    const index: number = this.selectedTags.indexOf(tag)
     if (index >= 0) {
-      this.tempTags.splice(index, 1);
+      this.tempTags.splice(index, 1)
     } else {
-      this.tempTags.push(tag);
+      this.tempTags.push(tag)
     }
-    this.$emit('updata:selectedTags', this.tempTags);
+    this.$emit('updata:selectedTags', this.tempTags)
   }
 
   create() {
-    const name: string | null = window.prompt('请输入标签名');
-    if (name && this.tags && this.tags.indexOf(name) < 0) {
-      // 展开原数组，添加新项
-      // 必须使用 updata:tags 事件名，对应 .sync 修饰符
-      tagsModel.save([...this.tags, name]);
-      this.$emit('update:tags', [...this.tags, name]);
-    }
+    const name: string | null = window.prompt('请输入标签名')
+    tagsModel.create(name)
   }
 }
 </script>
@@ -72,7 +67,7 @@ export default class Tags extends Vue {
       background: #d9d9d9;
       padding: 0 16px;
       margin-right: 12px;
-      margin-top: 4px;
+      margin-top: 12px;
       font-size: 14px;
       $h: 24px;
       height: $h;

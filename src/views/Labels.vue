@@ -3,7 +3,7 @@
     <ol class="tags">
       <li v-for="item of tags" :key="item">
         <span>{{ item }}</span>
-        <Icon name="right"/>
+        <Icon name="right" />
       </li>
     </ol>
     <div class="new">
@@ -12,21 +12,18 @@
   </Layout>
 </template>
 
-<script lang='ts'>
-import Vue from 'vue';
-import {Component} from 'vue-property-decorator';
-import tagsModel from '@/models/tagsModel';
+<script lang="ts">
+import Vue from 'vue'
+import { Component } from 'vue-property-decorator'
+import tagsModel from '@/models/tagsModel'
 
 @Component
 export default class Labels extends Vue {
-  tags = tagsModel.fetch();
+  tags = tagsModel.fetch()
 
   create() {
-    const name: string | null = window.prompt('请输入标签名');
-    if (name && this.tags && this.tags.indexOf(name) < 0) {
-      this.tags = [...this.tags, name];
-      tagsModel.save(this.tags);
-    }
+    const name: string | null = window.prompt('请输入标签名')
+    tagsModel.create(name)
   }
 }
 </script>
@@ -64,5 +61,4 @@ export default class Labels extends Vue {
     margin-top: 40px;
   }
 }
-
 </style>

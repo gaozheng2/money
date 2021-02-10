@@ -2,12 +2,13 @@ const keyName = 'moneyData';
 
 const moneyModel = {
   fetch(): MoneyData[] {
-    return JSON.parse(localStorage.getItem(keyName) || '[]');
+		const data: MoneyData[]=JSON.parse(localStorage.getItem(keyName) || '[]');
+    return data
   },
-  save(data: MoneyData) {
+  save(data: MoneyData[]) {
     localStorage.setItem(keyName, JSON.stringify(data));
   },
-  clone(data: MoneyData | MoneyData[]): MoneyData | MoneyData[] {
+  clone(data: MoneyData): MoneyData {
     return JSON.parse(JSON.stringify(data));
   }
 };
