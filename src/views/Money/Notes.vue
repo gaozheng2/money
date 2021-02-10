@@ -1,12 +1,12 @@
 <template>
   <div class="notes">
     <label>
-      <span>备注</span>
+      <span>{{ fieldName }}</span>
       <input
         type="text"
         :value="notes"
         @input="$emit('update:notes', $event.target.value)"
-        placeholder="输入备注"
+        :placeholder="`请输入${fieldName}`"
       />
     </label>
   </div>
@@ -18,7 +18,8 @@ import { Component, Prop, Watch } from 'vue-property-decorator'
 
 @Component
 export default class Notes extends Vue {
-  @Prop(String) readonly notes!: string
+  @Prop({ default: '字段名' }) readonly fieldName!: string
+  @Prop({ default: '' }) readonly notes!: string
 }
 </script>
 

@@ -4,11 +4,11 @@
     <ul class="current">
       <li
         v-for="item of tags"
-        :key="item"
+        :key="item.id"
         :class="{ selected: selectedTags.indexOf(item) >= 0 }"
         @click="toggle(item)"
       >
-        {{ item }}
+        {{ item.name }}
       </li>
     </ul>
     <div class="new">

@@ -1,15 +1,26 @@
 const keyName = 'tags'
+
+type Tag = {
+  id: string;
+  name: string;
+}
 type TagsModel = {
-  data: string[];
-  fetch: () => string[];
+  data: Tag[];
+  fetch: () => Tag[];
   create: (name: string | null) => void;
   save: () => void;
 }
+
 const tagsModel: TagsModel = {
   data: [],
   create(name) {
-    if (name && this.data && this.data.indexOf(name) < 0) {
-      this.data.push(name)
+    const names = this.data.map((item) => item.name) // 获取所有 name
+    if (name && names.indexOf(name) < 0) {
+      const newTag: Tag = {
+        id: name,
+        name: name,
+      }
+      this.data.push(newTag)
       this.save()
     }
   },
