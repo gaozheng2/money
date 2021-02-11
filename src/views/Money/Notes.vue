@@ -3,30 +3,30 @@
     <label>
       <span>{{ fieldName }}</span>
       <input
-        type="text"
-        :value="notes"
-        @input="$emit('update:notes', $event.target.value)"
-        :placeholder="`请输入${fieldName}`"
+          type="text"
+          :value="notes"
+          @input="$emit('update:notes', $event.target.value)"
+          :placeholder="`请输入${fieldName}`"
       />
     </label>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { Component, Prop, Watch } from 'vue-property-decorator'
+import Vue from 'vue';
+import {Component, Prop, Watch} from 'vue-property-decorator';
 
 @Component
 export default class Notes extends Vue {
-  @Prop({ default: '字段名' }) readonly fieldName!: string
-  @Prop({ default: '' }) readonly notes!: string
+  @Prop({default: '字段名'}) readonly fieldName!: string;
+  @Prop({default: ''}) readonly notes!: string;
 }
 </script>
 
 <style lang="scss" scoped>
 .notes {
-  background: #f5f5f5;
   padding-left: 16px;
+  font-size: 14px;
 
   > label {
     display: flex;
