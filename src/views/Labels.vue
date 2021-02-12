@@ -27,11 +27,12 @@ import Button from '@/components/Button.vue';
   components: {Button},
 })
 export default class Labels extends Vue {
-  tags = tagsModel.fetch();
+  tags = window.tagList;
 
   create() {
     const name: string | null = window.prompt('请输入标签名');
-    tagsModel.create(name);
+    window.createTag(name);
+    // tagsModel.create(name);
   }
 }
 </script>

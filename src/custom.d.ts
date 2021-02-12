@@ -19,3 +19,9 @@ type TagsModel = {
   update: (id: string, name: string) => 'success' | 'not found' | 'duplicated';
   remove: (id: string) => void;
 }
+
+interface Window {
+  tagList: Tag[];
+  createTag: (name: string) => void;
+  removeTag: (id: string) => void;
+}

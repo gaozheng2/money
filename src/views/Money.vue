@@ -1,6 +1,6 @@
 <template>
   <Layout class="layout" class-prefix="money">
-    <Tags :tags="tags" :selectedTags.sync="moneyData.tags"/>
+    <Tags :selectedTags.sync="moneyData.tags"/>
     <Notes fieldName="备注" :notes.sync="moneyData.notes"/>
     <Types :type.sync="moneyData.type"/>
     <NumberPad @update:value="onUpdateNum"/>
@@ -15,7 +15,6 @@ import Types from '@/views/Money/Types.vue';
 import NumberPad from '@/views/Money/NumberPad.vue';
 import {Component} from 'vue-property-decorator';
 import moneyModel from '@/models/moneyModel';
-import tagsModel from '@/models/tagsModel';
 import {clone} from '@/lib/clone';
 
 // 根据数据版本进行数据清洗
@@ -33,7 +32,6 @@ localStorage.setItem('dataVersion', '0.2.0');
   components: {NumberPad, Tags, Notes, Types},
 })
 export default class Money extends Vue {
-  tags = tagsModel.fetch();
   m = moneyModel.fetch();
   defaultData: MoneyData = {
     tags: [],
