@@ -1,3 +1,5 @@
+import {createId} from '@/lib/createId';
+
 const keyName = 'tags';
 const tagsModel: TagsModel = {
   data: [],
@@ -5,7 +7,7 @@ const tagsModel: TagsModel = {
     const names = this.data.map((item) => item.name); // 获取所有 name
     if (name && names.indexOf(name) < 0) {
       const newTag: Tag = {
-        id: name,
+        id: createId(),
         name: name,
       };
       this.data.push(newTag);
@@ -27,7 +29,7 @@ const tagsModel: TagsModel = {
       if (names.indexOf(name) >= 0) {
         return 'duplicated';
       } else {
-        this.data[index] = {id: name, name: name};
+        this.data[index].name = name;
         this.save();
         return 'success';
       }
