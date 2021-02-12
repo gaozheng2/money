@@ -1,14 +1,14 @@
 <template>
   <layout>
     <div class="title">
-      <Icon name="left" class="icon"/>
+      <Icon name="left" class="icon" @click.native="onBack"/>
       <span>编辑标签</span>
     </div>
     <div class="form-wrapper">
-      <Notes field-name="标签名"/>
+      <Notes field-name="标签名" :notes="tag.name" @update:notes="onUpdateTag"/>
     </div>
     <div class="button-wrapper">
-      <Button @click.native="delTag">删除标签</Button>
+      <Button @click.native="onDelTag">删除标签</Button>
     </div>
   </layout>
 </template>
@@ -24,19 +24,31 @@ import Button from '@/components/Button.vue';
   components: {Notes, Button},
 })
 export default class EditLabel extends Vue {
+  tag: Tag = {id: '', name: ''};
+
   created() {
     const id = this.$route.params.id;
     const tags = tagsModel.fetch();
     const tag = tags.find((item) => item.id === id);
     if (tag) {
-      console.log(tag);
+      this.tag = {id: tag.id, name: tag.name};
     } else {
       this.$router.replace('/404');
     }
   }
 
-  delTag() {
-    console.log('del');
+  onUpdateTag(name: string) {
+    this.tag.name = name;
+  }
+
+  onBack() {
+    const result = tagsModel.update(this.tag.id, this.tag.name);
+    this.$router.push('/labels');
+  }
+
+  onDelTag() {
+    tagsModel.remove(this.tag.id);
+    this.$router.replace('/labels');
   }
 }
 </script>

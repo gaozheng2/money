@@ -2,13 +2,13 @@
   <Layout>
     <div class="tags">
       <router-link
-        class="tag"
-        v-for="item of tags"
-        :key="item.id"
-        :to="`labels/edit/${item.id}`"
+          class="tag"
+          v-for="item of tags"
+          :key="item.id"
+          :to="`labels/edit/${item.id}`"
       >
         <span>{{ item.name }}</span>
-        <Icon name="right" />
+        <Icon name="right"/>
       </router-link>
     </div>
     <div class="new">
@@ -18,20 +18,20 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { Component } from 'vue-property-decorator'
-import tagsModel from '@/models/tagsModel'
-import Button from '@/components/Button.vue'
+import Vue from 'vue';
+import {Component} from 'vue-property-decorator';
+import tagsModel from '@/models/tagsModel';
+import Button from '@/components/Button.vue';
 
 @Component({
-  components: { Button },
+  components: {Button},
 })
 export default class Labels extends Vue {
-  tags = tagsModel.fetch()
+  tags = tagsModel.fetch();
 
   create() {
-    const name: string | null = window.prompt('请输入标签名')
-    tagsModel.create(name)
+    const name: string | null = window.prompt('请输入标签名');
+    tagsModel.create(name);
   }
 }
 </script>
@@ -59,5 +59,6 @@ export default class Labels extends Vue {
 
 .new {
   text-align: center;
+  margin-top: 40px;
 }
 </style>
