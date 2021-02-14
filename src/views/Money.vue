@@ -14,12 +14,11 @@ import Notes from '@/views/Money/Notes.vue';
 import Types from '@/views/Money/Types.vue';
 import NumberPad from '@/views/Money/NumberPad.vue';
 import {Component} from 'vue-property-decorator';
-import moneyModel from '@/models/moneyModel';
 import {clone} from '@/lib/clone';
 import Button from '@/components/Button.vue';
 
 // 根据数据版本进行数据清洗
-const dataVersion = localStorage.getItem('dataVersion') || '0';
+/*const dataVersion = localStorage.getItem('dataVersion') || '0';
 if (dataVersion === '0.1.0') {
   const oldDataList: MoneyData[] = moneyModel.fetch();
   oldDataList.forEach((item) => {
@@ -27,13 +26,12 @@ if (dataVersion === '0.1.0') {
   });
   moneyModel.save();
 }
-localStorage.setItem('dataVersion', '0.2.0');
+localStorage.setItem('dataVersion', '0.2.0');*/
 
 @Component({
   components: {Button, NumberPad, Tags, Notes, Types},
 })
 export default class Money extends Vue {
-  m = moneyModel.fetch();
   defaultData: MoneyData = {
     tags: [],
     notes: '',
@@ -45,7 +43,7 @@ export default class Money extends Vue {
 
   onUpdateNum(num: number) {
     this.moneyData.num = num;
-    moneyModel.create(this.moneyData);
+    this.$store.commit('createMoney', this.moneyData);
     this.moneyData = clone(this.defaultData); // 恢复默认值
   }
 }

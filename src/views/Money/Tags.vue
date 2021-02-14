@@ -20,13 +20,15 @@
 <script lang="ts">
 import Vue from 'vue';
 import {Component, Prop} from 'vue-property-decorator';
-import tagsModel from '@/models/tagsModel';
 
 @Component
 export default class Tags extends Vue {
   @Prop(Array) readonly selectedTags!: string[];
-  tags = window.tagList;
   tempTags = this.selectedTags;
+
+  get tags() {
+    return this.$store.state.tags;
+  }
 
   onToggle(tag: string) {
     const index: number = this.selectedTags.indexOf(tag);
@@ -40,7 +42,7 @@ export default class Tags extends Vue {
 
   onCreate() {
     const name: string | null = window.prompt('请输入标签名');
-    tagsModel.create(name);
+    this.$store.commit('createTag', name);
   }
 }
 </script>

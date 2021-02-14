@@ -16,7 +16,6 @@
 <script lang="ts">
 import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
-import tagsModel from '@/models/tagsModel';
 import Notes from '@/views/Money/Notes.vue';
 import Button from '@/components/Button.vue';
 
@@ -28,8 +27,7 @@ export default class EditLabel extends Vue {
 
   created() {
     const id = this.$route.params.id;
-    const tags = window.tagList;
-    const tag = tags.find((item) => item.id === id);
+    const tag = this.$store.state.tags.find((item) => item.id === id);
     if (tag) {
       this.tag = {id: tag.id, name: tag.name};
     } else {
@@ -42,12 +40,12 @@ export default class EditLabel extends Vue {
   }
 
   onBack() {
-    const result = tagsModel.update(this.tag.id, this.tag.name);
+    const result = this.$store.commit('updateTag', [this.tag.id, this.tag.name]);
     this.$router.push('/labels');
   }
 
   onDelTag() {
-    tagsModel.remove(this.tag.id);
+    this.$store.commit('removeTag', this.tag.id);
     this.$router.replace('/labels');
   }
 }
