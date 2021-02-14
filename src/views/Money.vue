@@ -16,6 +16,7 @@ import NumberPad from '@/views/Money/NumberPad.vue';
 import {Component} from 'vue-property-decorator';
 import moneyModel from '@/models/moneyModel';
 import {clone} from '@/lib/clone';
+import Button from '@/components/Button.vue';
 
 // 根据数据版本进行数据清洗
 const dataVersion = localStorage.getItem('dataVersion') || '0';
@@ -29,7 +30,7 @@ if (dataVersion === '0.1.0') {
 localStorage.setItem('dataVersion', '0.2.0');
 
 @Component({
-  components: {NumberPad, Tags, Notes, Types},
+  components: {Button, NumberPad, Tags, Notes, Types},
 })
 export default class Money extends Vue {
   m = moneyModel.fetch();
