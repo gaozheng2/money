@@ -27,7 +27,7 @@ export default class EditLabel extends Vue {
 
   created() {
     const id = this.$route.params.id;
-    const tag = this.$store.state.tags.find((item) => item.id === id);
+    const tag = this.$store.state.tags.find((item: Tag) => item.id === id);
     if (tag) {
       this.tag = {id: tag.id, name: tag.name};
     } else {
@@ -40,7 +40,11 @@ export default class EditLabel extends Vue {
   }
 
   onBack() {
-    const result = this.$store.commit('updateTag', [this.tag.id, this.tag.name]);
+    const payload = {
+      id: this.tag.id,
+      name: this.tag.name
+    };
+    this.$store.commit('updateTag', payload);
     this.$router.push('/labels');
   }
 

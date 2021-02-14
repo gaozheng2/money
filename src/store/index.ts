@@ -15,7 +15,6 @@ const store = new Vuex.Store({
       const newData = clone(item);
       newData.date = new Date();
       state.moneyDataList.push(newData);
-      console.log(state.moneyDataList);
       store.commit('saveMoney');
     },
     saveMoney(state) {
@@ -32,20 +31,16 @@ const store = new Vuex.Store({
         store.commit('saveTag');
       }
     },
-    updateTag(state, id: string, name: string) {
+    updateTag(state, payload: { id: string; name: string }) {
+      const {id, name} = payload;
       const idList = state.tags.map((item: Tag) => item.id);
       const index = idList.indexOf(id);
       if (index >= 0) {
         const names = state.tags.map((item: Tag) => item.name);
-        if (names.indexOf(name) >= 0) {
-          return 'duplicated';
-        } else {
+        if (name && names.indexOf(name) < 0) {
           state.tags[index].name = name;
           store.commit('saveTag');
-          return 'success';
         }
-      } else {
-        return 'not found';
       }
     },
     removeTag(state, id: string) {
