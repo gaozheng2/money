@@ -13,7 +13,7 @@ const store = new Vuex.Store({
   mutations: {
     createMoney(state, item: MoneyData) {
       const newData = clone(item);
-      newData.date = new Date();
+      newData.date = new Date().toISOString();
       state.moneyDataList.push(newData);
       store.commit('saveMoney');
     },

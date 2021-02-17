@@ -22,4 +22,10 @@ body {
   max-width: 500px;
   margin: 0 auto;
 }
+
+@media (min-width: 500px) {
+  #app {
+    border: 1px solid #c4c4c4;
+  }
+}
 </style>

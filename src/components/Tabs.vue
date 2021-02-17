@@ -1,5 +1,5 @@
 <template>
-  <ul class="types">
+  <ul class="tabs" :class="{[`${classPrefix}-tabs`]:classPrefix}">
     <li v-for="item of dataSource"
         :key="item.value"
         :class="{
@@ -31,7 +31,7 @@ export default class Tabs extends Vue {
 </script>
 
 <style lang="scss" scoped>
-.types {
+.tabs {
   background: #c4c4c4;
   display: flex;
   text-align: center;
