@@ -32,17 +32,18 @@ import Vue from 'vue';
 import Types from '@/views/Money/Types.vue';
 import {Component} from 'vue-property-decorator';
 import Tabs from '@/components/Tabs.vue';
-import {TYPE_LIST, DATE_LIST} from '@/lib/constants';
+import {TYPE_LIST} from '@/lib/constants';
 import dayjs from 'dayjs';
 
 @Component({
   components: {Tabs, Types},
 })
 export default class Statistics extends Vue {
-  dateValue = 'day';
+  // dateValue = 'day';
   typeValue = '-';
   TYPE_LIST = TYPE_LIST;
-  DATE_LIST = DATE_LIST;
+
+  // DATE_LIST = DATE_LIST;
 
   tagString(tags: Tag[]) {
     if (tags.length === 0) {
@@ -73,7 +74,7 @@ export default class Statistics extends Vue {
   get moneyList() {
     return this.$store.state.moneyDataList
         .filter((item: MoneyData) => item.type === this.typeValue)
-        .sort((a, b) => dayjs(b.date) - dayjs(a.date));
+        .sort((a: MoneyData, b: MoneyData) => dayjs(b.date).valueOf() - dayjs(a.date).valueOf());
   }
 
   get result() {
