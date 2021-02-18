@@ -3,10 +3,10 @@
     <div class="space"></div>
     <ul class="current">
       <li
-          v-for="item of tags"
-          :key="item.id"
-          :class="{ selected: selectedTags.indexOf(item) >= 0 }"
-          @click="onToggle(item)"
+        v-for="item of tags"
+        :key="item.id"
+        :class="{ selected: selectedTags.indexOf(item) >= 0 }"
+        @click="onToggle(item)"
       >
         {{ item.name }}
       </li>
@@ -18,31 +18,33 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import {Component, Prop} from 'vue-property-decorator';
+import Vue from 'vue'
+import { Component, Prop } from 'vue-property-decorator'
 
 @Component
 export default class Tags extends Vue {
-  @Prop(Array) readonly selectedTags!: string[];
-  tempTags = this.selectedTags;
+  @Prop(Array) readonly selectedTags!: string[]
+  get tempTags() {
+    return this.selectedTags
+  }
 
   get tags() {
-    return this.$store.state.tags;
+    return this.$store.state.tags
   }
 
   onToggle(tag: string) {
-    const index: number = this.selectedTags.indexOf(tag);
+    const index: number = this.selectedTags.indexOf(tag)
     if (index >= 0) {
-      this.tempTags.splice(index, 1);
+      this.tempTags.splice(index, 1)
     } else {
-      this.tempTags.push(tag);
+      this.tempTags.push(tag)
     }
-    this.$emit('updata:selectedTags', this.tempTags);
+    this.$emit('updata:selectedTags', this.tempTags)
   }
 
   onCreate() {
-    const name: string | null = window.prompt('请输入标签名');
-    this.$store.commit('createTag', name);
+    const name: string | null = window.prompt('请输入标签名')
+    this.$store.commit('createTag', name)
   }
 }
 </script>

@@ -1,10 +1,20 @@
 <template>
   <Layout>
-    <Tabs :data-source="TYPE_LIST" :value.sync="typeValue" class-prefix="types"/>
-    <Tabs :data-source="DATE_LIST" :value.sync="dateValue" class-prefix="date"/>
+    <Tabs
+      :data-source="TYPE_LIST"
+      :value.sync="typeValue"
+      class-prefix="types"
+    />
+    <!-- <Tabs
+      :data-source="DATE_LIST"
+      :value.sync="dateValue"
+      class-prefix="date"
+    /> -->
     <ol>
-      <li v-for="(group,index) of result" :key="index">
-        <h3 class="title">{{ day(group.title) }}</h3>
+      <li v-for="(group, index) of result" :key="index">
+        <h3 class="title">
+          {{ day(group.title) }}<span>￥{{ group.total }}</span>
+        </h3>
         <ol>
           <li v-for="item of group.items" :key="item.date" class="item">
             <span>{{ tagString(item.tags) }}</span>
@@ -17,69 +27,88 @@
   </Layout>
 </template>
 
-<script lang='ts'>
-import Vue from 'vue';
-import Types from '@/views/Money/Types.vue';
-import {Component} from 'vue-property-decorator';
-import Tabs from '@/components/Tabs.vue';
-import {TYPE_LIST, DATE_LIST} from '@/lib/constants';
-import dayjs from 'dayjs';
+<script lang="ts">
+import Vue from 'vue'
+import Types from '@/views/Money/Types.vue'
+import { Component } from 'vue-property-decorator'
+import Tabs from '@/components/Tabs.vue'
+import { TYPE_LIST, DATE_LIST } from '@/lib/constants'
+import dayjs from 'dayjs'
 
 @Component({
-  components: {Tabs, Types},
+  components: { Tabs, Types },
 })
 export default class Statistics extends Vue {
-  type = '-';
-  dateValue = 'day';
-  typeValue = '-';
-  TYPE_LIST = TYPE_LIST;
-  DATE_LIST = DATE_LIST;
+  dateValue = 'day'
+  typeValue = '-'
+  TYPE_LIST = TYPE_LIST
+  DATE_LIST = DATE_LIST
 
   tagString(tags: Tag[]) {
-    let result = '';
+    let result = ''
     if (tags) {
-      tags.forEach(item => {
+      tags.forEach((item) => {
         if (result) {
-          result = result + ', ' + item.name;
+          result = result + ', ' + item.name
         } else {
-          result = item.name;
+          result = item.name
         }
-      });
+      })
     }
-    if (!result) result = '无';
-    return result;
+    if (!result) result = '无'
+    return result
   }
 
   day(str: string) {
-    const d = dayjs(str);
-    const now = dayjs();
+    const d = dayjs(str)
+    const now = dayjs()
     if (d.isSame(now, 'day')) {
-      return '今天';
+      return '今天'
     } else if (d.isSame(now.subtract(1, 'day'), 'day')) {
-      return '昨天';
+      return '昨天'
     } else if (d.isSame(now.subtract(2, 'day'), 'day')) {
-      return '前天';
+      return '前天'
     } else if (d.isSame(now.subtract(3, 'day'), 'day')) {
-      return '大前天';
+      return '大前天'
     } else if (d.isSame(now, 'year')) {
-      return d.format('M月D日');
+      return d.format('M月D日')
     } else {
-      return d.format('YYYY年M月D日');
+      return d.format('YYYY年M月D日')
     }
   }
 
   get moneyList() {
-    return this.$store.state.moneyDataList;
+    return this.$store.state.moneyDataList
+      .filter((item: MoneyData) => item.type === this.typeValue)
+      .sort((a, b) => dayjs(b.date) - dayjs(a.date))
   }
 
   get result() {
-    const hashTable: { [key: string]: { title: string; items: MoneyData[] } } = {};
-    this.moneyList.forEach((item) => {
-      const [date, time] = item.date.split('T');
-      hashTable[date] = hashTable[date] || {title: date, items: []};
-      hashTable[date].items.push(item);
-    });
-    return hashTable;
+    if (this.moneyList.length === 0) return []
+    const hashTable: { title: string; items: MoneyData[]; total?: number }[] = [
+      {
+        title: dayjs(this.moneyList[0].date).format('YYYY-MM-DD'),
+        items: [this.moneyList[0]],
+      },
+    ]
+
+    for (let i = 1; i < this.moneyList.length; i++) {
+      const current = this.moneyList[i]
+      const last = hashTable[hashTable.length - 1]
+      if (dayjs(last.title).isSame(dayjs(current.date), 'day')) {
+        last.items.push(current)
+      } else {
+        hashTable.push({
+          title: dayjs(current.date).format('YYYY-MM-DD'),
+          items: [current],
+        })
+      }
+    }
+
+    hashTable.forEach((group) => {
+      group.total = group.items.reduce((sum, item) => sum + item.num, 0)
+    })
+    return hashTable
   }
 }
 </script>
@@ -87,10 +116,10 @@ export default class Statistics extends Vue {
 <style lang="scss" scoped>
 ::v-deep {
   .types-item {
-    background: white;
+    background: #c4c4c4;
 
     &.selected {
-      background: #c4c4c4;
+      background: white;
 
       &::after {
         display: none;
