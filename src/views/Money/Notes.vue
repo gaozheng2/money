@@ -3,7 +3,7 @@
     <label>
       <span>{{ fieldName }}</span>
       <input
-          type="text"
+          :type="type || 'text'"
           :value="notes"
           @input="$emit('update:notes', $event.target.value)"
           :placeholder="`请输入${fieldName}`"
@@ -14,12 +14,13 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import {Component, Prop, Watch} from 'vue-property-decorator';
+import {Component, Prop} from 'vue-property-decorator';
 
 @Component
 export default class Notes extends Vue {
   @Prop({default: '字段名'}) readonly fieldName!: string;
   @Prop({default: ''}) readonly notes!: string;
+  @Prop() readonly type?: string;
 }
 </script>
 
