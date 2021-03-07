@@ -1,5 +1,6 @@
 <template>
   <Layout>
+    <Echart :options="options"/>
     <Tabs
         :data-source="TYPE_LIST"
         :value.sync="typeValue"
@@ -34,14 +35,28 @@ import {Component} from 'vue-property-decorator';
 import Tabs from '@/components/Tabs.vue';
 import {TYPE_LIST} from '@/lib/constants';
 import dayjs from 'dayjs';
+import Echart from '@/views/Money/Echart.vue';
 
 @Component({
-  components: {Tabs, Types},
+  components: {Echart, Tabs, Types},
 })
 export default class Statistics extends Vue {
   // dateValue = 'day';
   typeValue = '-';
   TYPE_LIST = TYPE_LIST;
+  options = {
+    xAxis: {
+      type: 'category',
+      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    },
+    yAxis: {
+      type: 'value'
+    },
+    series: [{
+      data: [150, 230, 224, 218, 135, 147, 260],
+      type: 'line'
+    }]
+  };
 
   // DATE_LIST = DATE_LIST;
 
