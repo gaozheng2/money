@@ -1,6 +1,8 @@
 <template>
   <Layout>
-    <Echart :options="options"/>
+    <div class="chart-wrapper" ref="chartWrapper">
+      <Echart :options="options"/>
+    </div>
     <Tabs
         :data-source="TYPE_LIST"
         :value.sync="typeValue"
@@ -45,20 +47,48 @@ export default class Statistics extends Vue {
   typeValue = '-';
   TYPE_LIST = TYPE_LIST;
   options = {
+    grid: {  // 图标边框的间距
+      left: 0,
+      right: 0
+    },
     xAxis: {
       type: 'category',
+      axisLine: {
+        lineStyle: {
+          color: '#666' // 横坐标轴颜色
+        }
+      },
+      axisTick: {
+        alignWithLabel: true // 刻度线对齐文字
+      },
       data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
     },
     yAxis: {
-      type: 'value'
+      show: false
+    },
+    tooltip: { // 提示信息
+      triggerOn: 'click', // 点击后显示
+      position: 'top', // 显示位置
+      format: '{c}' // 提示显示内容
     },
     series: [{
+      symbol: 'circle', // 标签点为实心圆
+      symbolSize: 8, // 标签点大小
+      itemStyle: {
+        color: '#666', // 连线颜色
+        borderColor: '#666' // 标签点边框颜色
+      },
       data: [150, 230, 224, 218, 135, 147, 260],
       type: 'line'
     }]
   };
 
   // DATE_LIST = DATE_LIST;
+
+  mounted() {
+    const div = (this.$refs.chartWrapper as HTMLDivElement);
+    div.scrollLeft = div.scrollWidth;
+  }
 
   tagString(tags: Tag[]) {
     if (tags.length === 0) {
@@ -168,5 +198,14 @@ export default class Statistics extends Vue {
   max-width: 150px;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.chart-wrapper {
+  overflow: auto;
+  height: 200px;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 </style>

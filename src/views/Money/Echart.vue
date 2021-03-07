@@ -1,7 +1,5 @@
 <template>
-  <div class="wrapper" ref="wrapper">
-    chart
-  </div>
+  <div class="chart" ref="chart"></div>
 </template>
 
 <script lang="ts">
@@ -13,14 +11,15 @@ export default class Echart extends Vue {
   @Prop() options?: any;
 
   mounted() {
-    const chart = echarts.init(this.$refs.wrapper as HTMLDivElement);
+    const chart = echarts.init(this.$refs.chart as HTMLDivElement);
     chart.setOption(this.options);
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.wrapper {
-  height: 400px;
+.chart {
+  width: 430%;
+  height: 200px;
 }
 </style>
