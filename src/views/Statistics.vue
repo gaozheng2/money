@@ -8,11 +8,6 @@
         :value.sync="typeValue"
         class-prefix="types"
     />
-    <!-- <Tabs
-      :data-source="DATE_LIST"
-      :value.sync="dateValue"
-      class-prefix="date"
-    /> -->
     <ol>
       <li v-for="(group, index) of result" :key="index">
         <h3 class="title">
@@ -38,6 +33,7 @@ import Tabs from '@/components/Tabs.vue';
 import {TYPE_LIST} from '@/lib/constants';
 import dayjs from 'dayjs';
 import Echart from '@/views/Money/Echart.vue';
+import _ from 'lodash';
 
 @Component({
   components: {Echart, Tabs, Types},
@@ -46,48 +42,75 @@ export default class Statistics extends Vue {
   // dateValue = 'day';
   typeValue = '-';
   TYPE_LIST = TYPE_LIST;
-  options = {
-    grid: {  // 图标边框的间距
-      left: 0,
-      right: 0
-    },
-    xAxis: {
-      type: 'category',
-      axisLine: {
-        lineStyle: {
-          color: '#666' // 横坐标轴颜色
-        }
-      },
-      axisTick: {
-        alignWithLabel: true // 刻度线对齐文字
-      },
-      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-    },
-    yAxis: {
-      show: false
-    },
-    tooltip: { // 提示信息
-      triggerOn: 'click', // 点击后显示
-      position: 'top', // 显示位置
-      format: '{c}' // 提示显示内容
-    },
-    series: [{
-      symbol: 'circle', // 标签点为实心圆
-      symbolSize: 8, // 标签点大小
-      itemStyle: {
-        color: '#666', // 连线颜色
-        borderColor: '#666' // 标签点边框颜色
-      },
-      data: [150, 230, 224, 218, 135, 147, 260],
-      type: 'line'
-    }]
-  };
-
-  // DATE_LIST = DATE_LIST;
+  keys = [];
+  values = [];
 
   mounted() {
+    // 自动滚动到最右端
     const div = (this.$refs.chartWrapper as HTMLDivElement);
     div.scrollLeft = div.scrollWidth;
+  }
+
+  get options() {
+    // 初始化图表数据
+    const today = new Date();
+    const arrayData = [];
+    for (let i = 0; i <= 29; i++) {
+      const amountDate = dayjs(today).subtract(i, 'day').format('YYYY-MM-DD');
+      arrayData.push({
+        date: amountDate,
+        lists: _.filter(this.moneyList, (item) => {
+          return dayjs(item.date).format('YYYY-MM-DD') == amountDate;
+        }),
+        amount: 0
+      });
+    }
+    arrayData.forEach(item => {
+      let amount = 0;
+      item.lists.forEach((j) => amount += j.num);
+      item.amount = amount;
+    });
+    arrayData.sort((a, b) => dayjs(a.date).valueOf() - dayjs(b.date).valueOf());
+
+    const keys = arrayData.map(item => item.date);
+    const values = arrayData.map(item => item.amount);
+
+    return {
+      grid: {  // 图标边框的间距
+        left: 0,
+        right: 0
+      },
+      xAxis: {
+        type: 'category',
+        axisLine: {
+          lineStyle: {
+            color: '#666' // 横坐标轴颜色
+          }
+        },
+        axisTick: {
+          alignWithLabel: true // 刻度线对齐文字
+        },
+        data: keys
+      },
+      yAxis: {
+        show: false
+      },
+      tooltip: { // 提示信息
+        triggerOn: 'click', // 点击后显示
+        position: 'top', // 显示位置
+        format: '{c}' // 提示显示内容
+      },
+      series: [{
+        symbol: 'circle', // 标签点为实心圆
+        symbolSize: 8, // 标签点大小
+        itemStyle: {
+          color: '#666', // 连线颜色
+          borderColor: '#666' // 标签点边框颜色
+        },
+        data: values,
+        type: 'line'
+      }]
+    };
   }
 
   tagString(tags: Tag[]) {
