@@ -90,7 +90,12 @@ export default class Statistics extends Vue {
         axisTick: {
           alignWithLabel: true // 刻度线对齐文字
         },
-        data: keys
+        data: keys,
+        axisLabel: {
+          formatter: (value: string, index: number) => {
+            return value.substr(5);
+          }
+        }
       },
       yAxis: {
         show: false
@@ -166,7 +171,7 @@ export default class Statistics extends Vue {
         });
       }
     }
-
+    // 计算每天的总和
     hashTable.forEach((group) => {
       group.total = group.items.reduce((sum, item) => sum + item.num, 0);
     });

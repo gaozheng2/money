@@ -9,7 +9,7 @@ import * as echarts from 'echarts';
 @Component
 export default class Echart extends Vue {
   @Prop() options?: any;
-  chart: any = null;
+  chart?: any;
 
   mounted() {
     this.chart = echarts.init(this.$refs.chart as HTMLDivElement);
@@ -18,7 +18,6 @@ export default class Echart extends Vue {
 
   @Watch('options')
   onOptionsChanged(val) {
-    console.log(22);
     this.chart.setOption(val);
   }
 }
